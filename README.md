@@ -1,3 +1,3 @@
 # Tictactoe
 
-## An AI to play Tic-Tac-Toe
+## An AI to play Tic-Tac-Toe.
