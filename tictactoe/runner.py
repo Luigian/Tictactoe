@@ -63,7 +63,7 @@ while True:
             elif playOButton.collidepoint(mouse):
                 time.sleep(0.2)
                 user = ttt.O
-
+        if user: print(f"user: {user}")
     else:
 
         # Draw game board
@@ -90,7 +90,10 @@ while True:
             tiles.append(row)
 
         game_over = ttt.terminal(board)
+        
         player = ttt.player(board)
+        print(f"next player: {player}")
+        sys.exit()
 
         # Show title
         if game_over:

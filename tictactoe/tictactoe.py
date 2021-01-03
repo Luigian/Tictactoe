@@ -13,16 +13,30 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    return [[EMPTY, EMPTY, EMPTY],
+    # return [[EMPTY, EMPTY, EMPTY],
+    #         [EMPTY, EMPTY, EMPTY],
+    #         [EMPTY, EMPTY, EMPTY]]
+    return [[EMPTY, "X", EMPTY],
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
-
 
 def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    raise NotImplementedError
+    x = o = empty = 0
+
+    for row in board:
+        for move in row:
+            if move == "X": 
+                x += 1
+            elif move == "O":
+                o += 1
+            else:
+                empty += 1
+    if x == o:
+        return "X"
+    return "O"
 
 
 def actions(board):
@@ -50,7 +64,9 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+    print(board[0][0])
+    # if board[0][0] == board[0][1] and board[0][0] == board[0][2]:
+        
 
 
 def utility(board):
