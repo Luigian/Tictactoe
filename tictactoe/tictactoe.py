@@ -16,27 +16,34 @@ def initial_state():
     # return [[EMPTY, EMPTY, EMPTY],
     #         [EMPTY, EMPTY, EMPTY],
     #         [EMPTY, EMPTY, EMPTY]]
-    return [[EMPTY, "X", EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]]
+    return [["X", "O", "X"],
+            ["O", "X", "O"],
+            ["O", "X", "X"]]
+
 
 def player(board):
     """
     Returns player who has the next turn on a board.
     """
-    x = o = empty = 0
+    count = moves_counter(board)
+    
+    if count["x"] == count["o"]:
+        return "X"
+    return "O"
+
+
+def moves_counter(board):
+    count = {"x": 0, "o": 0, "empty": 0}
 
     for row in board:
         for move in row:
             if move == "X": 
-                x += 1
+                count["x"] += 1
             elif move == "O":
-                o += 1
+                count["o"] += 1
             else:
-                empty += 1
-    if x == o:
-        return "X"
-    return "O"
+                count["empty"] += 1
+    return count
 
 
 def actions(board):
@@ -64,10 +71,29 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    print(board[0][0])
-    # if board[0][0] == board[0][1] and board[0][0] == board[0][2]:
-        
+    diag_down = list()
+    diag_up = list()
+    triplets = list()
 
+    count = moves_counter(board)
+    if not count["empty"]:
+        return True
+    if count["x"] < 3 and count["o"] < 3:
+        return False
+    
+    for i in range(3):
+        triplets.append((board[i][0], board[i][1], board[i][2]))
+        triplets.append((board[0][i], board[1][i], board[2][i]))
+        diag_down.append(board[i][i])
+        diag_up.append(board[i][(i - 2) * -1])
+    triplets.append(diag_down)
+    triplets.append(diag_up)
+    
+    for triplet in triplets:
+        if triplet.count("X") == 3 or triplet.count("O") == 3:
+            return True
+    return False
+    
 
 def utility(board):
     """
