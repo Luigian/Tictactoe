@@ -91,8 +91,6 @@ while True:
 
         game_over = ttt.terminal(board)
         player = ttt.player(board)
-        # print(f"next player: {player}")
-        sys.exit()
 
         # Show title
         if game_over:

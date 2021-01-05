@@ -17,8 +17,8 @@ def initial_state():
     #         [EMPTY, EMPTY, EMPTY],
     #         [EMPTY, EMPTY, EMPTY]]
     return [["X", "O", "X"],
-            ["O", "X", "O"],
-            ["O", "X", "X"]]
+            ["X", "O", "O"],
+            ["O", None, "X"]]
 
 
 def player(board):
@@ -33,6 +33,8 @@ def player(board):
 
 
 def moves_counter(board):
+    """
+    """
     count = {"x": 0, "o": 0, "empty": 0}
 
     for row in board:
@@ -64,23 +66,41 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    triplets = get_triplets(board)
+
+    for triplet in triplets:
+        if triplet.count("X") == 3:
+            return "X"
+        elif triplet.count("O") == 3:
+            return "O"
+    return None
 
 
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    diag_down = list()
-    diag_up = list()
-    triplets = list()
-
     count = moves_counter(board)
+    
     if not count["empty"]:
         return True
     if count["x"] < 3 and count["o"] < 3:
         return False
     
+    triplets = get_triplets(board)
+    
+    for triplet in triplets:
+        if triplet.count("X") == 3 or triplet.count("O") == 3:
+            return True
+    return False
+    
+def get_triplets(board):
+    """
+    """
+    triplets = list()
+    diag_down = list()
+    diag_up = list()
+
     for i in range(3):
         triplets.append((board[i][0], board[i][1], board[i][2]))
         triplets.append((board[0][i], board[1][i], board[2][i]))
@@ -89,11 +109,8 @@ def terminal(board):
     triplets.append(diag_down)
     triplets.append(diag_up)
     
-    for triplet in triplets:
-        if triplet.count("X") == 3 or triplet.count("O") == 3:
-            return True
-    return False
-    
+    return triplets
+
 
 def utility(board):
     """
