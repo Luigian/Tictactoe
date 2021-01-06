@@ -3,6 +3,7 @@ Tic Tac Toe Player
 """
 
 import math
+import copy
 
 X = "X"
 O = "O"
@@ -13,12 +14,12 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    # return [[EMPTY, EMPTY, EMPTY],
-    #         [EMPTY, EMPTY, EMPTY],
-    #         [EMPTY, EMPTY, EMPTY]]
-    return [["X", "O", "X"],
-            ["X", "O", "O"],
-            ["O", None, "X"]]
+    return [[EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY]]
+    # return [["X", "O", "X"],
+    #         ["X", None, "O"],
+    #         ["O", None, None]]
 
 
 def player(board):
@@ -52,14 +53,29 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
-    raise NotImplementedError
+    actions = set()
+
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] is None:
+                actions.add((i, j))
+
+    return actions
 
 
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+    i = action[0]
+    j = action[1]
+
+    if board[i][j] is not None:
+        raise NameError('Invalid action')
+
+    new_board = copy.deepcopy(board)
+    new_board[i][j] = player(board)
+    return new_board
 
 
 def winner(board):
@@ -123,4 +139,7 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    moves = actions(board)
+
+    for move in moves:
+         return move
