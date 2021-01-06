@@ -14,12 +14,12 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    return [[EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]]
-    # return [["X", "O", "X"],
-    #         ["X", None, "O"],
-    #         ["O", None, None]]
+    # return [[EMPTY, EMPTY, EMPTY],
+    #         [EMPTY, EMPTY, EMPTY],
+    #         [EMPTY, EMPTY, EMPTY]]
+    return [["O", "X", "X"],
+            ["X", "O", EMPTY],
+            ["O", "X", EMPTY]]
 
 
 def player(board):
@@ -132,14 +132,53 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    raise NotImplementedError
+    win = winner(board)
+
+    if win == "X":
+        return 1
+    elif win == "O":
+        return -1
+    else:
+        return 0
 
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    moves = actions(board)
+    print(board)
+    
+    spaces = actions(board)
+    for space in spaces:
+        print(space)
+    
+    scores = dict()
+    
+    # for move in moves:
+    #      return move
+    
+    print("---------------")
+    for space in spaces:
+        scores[space] = 0
+    print(scores)
+    print("---------------")
 
-    for move in moves:
-         return move
+    for space in spaces:
+        new_board = result(board, space)
+        print(new_board)
+        if terminal(new_board):
+            scores[space] += utility(new_board)
+
+    print(scores)
+    
+    v = list(scores.values())
+    maxi = max(v)
+    mini = min(v)
+    k = list(scores.keys())
+    
+    if player(board) == "X":
+        return k[v.index(maxi)]
+    else:
+        return k[v.index(mini)]
+
+    # return (2, 2)
