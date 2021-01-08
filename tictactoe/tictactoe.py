@@ -14,12 +14,12 @@ def initial_state():
     """
     Returns starting state of the board.
     """
-    # return [[EMPTY, EMPTY, EMPTY],
-    #         [EMPTY, EMPTY, EMPTY],
-    #         [EMPTY, EMPTY, EMPTY]]
-    return [["O", "X", "X"],
-            ["X", "O", EMPTY],
-            ["O", "X", EMPTY]]
+    return [[EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY]]
+    # return [["O", "X", EMPTY],
+    #         ["X", "O", EMPTY],
+    #         ["O", "X", EMPTY]]
 
 
 def player(board):
@@ -142,43 +142,76 @@ def utility(board):
         return 0
 
 
+# def minimax(board):
+#     """
+#     Returns the optimal action for the current player on the board.
+#     """
+#     print(board)
+    
+#     moves = actions(board)
+#     for move in moves:
+#         print(move)
+    
+#     scores = dict()
+#     print("---------------")
+#     for move in moves:
+#         scores[move] = 0
+#     print(scores)
+#     print("---------------")
+#     for move in moves:
+#         new_board = result(board, move)
+#         print(new_board)
+#         if terminal(new_board):
+#             scores[move] += utility(new_board)
+#     print(scores)
+    
+#     v = list(scores.values())
+#     maxi = max(v)
+#     mini = min(v)
+#     k = list(scores.keys())
+#     if player(board) == "X":
+#         return k[v.index(maxi)]
+#     else:
+#         return k[v.index(mini)]
+
+
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
     print(board)
     
-    spaces = actions(board)
-    for space in spaces:
-        print(space)
+    moves = actions(board)
+    for move in moves:
+        print(move)
     
     scores = dict()
-    
-    # for move in moves:
-    #      return move
-    
     print("---------------")
-    for space in spaces:
-        scores[space] = 0
+    for move in moves:
+        scores[move] = 0
     print(scores)
     print("---------------")
-
-    for space in spaces:
-        new_board = result(board, space)
-        print(new_board)
-        if terminal(new_board):
-            scores[space] += utility(new_board)
-
+    
+    for move in moves:
+        helper(board, move, scores, move)
     print(scores)
     
     v = list(scores.values())
     maxi = max(v)
     mini = min(v)
     k = list(scores.keys())
-    
     if player(board) == "X":
         return k[v.index(maxi)]
     else:
         return k[v.index(mini)]
 
-    # return (2, 2)
+def helper(board, move, scores, parent):
+    new_board = result(board, move)
+    print(new_board)
+    if not terminal(new_board):
+        emps = actions(new_board)
+        for emp in emps:
+            helper(new_board, emp, scores, parent)
+    else:
+        scores[parent] += utility(new_board)
+        print(scores)
