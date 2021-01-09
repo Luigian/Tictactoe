@@ -175,78 +175,78 @@ def utility(board):
 #         return k[v.index(mini)]
 
 def minimax(board):
-    val = dict()
-    
-    for action in actions(board):
-        if player(board) == "X":
-            val[action] = max_value(result(board, action))
-        else:
-            val[action] = min_value(result(board, action))
-
-    print(val)
-    
-    # max(stats, key=stats.get)
-    
-    v = list(val.values())
-    k = list(val.keys())
-    if player(board) == "X":
-        return k[v.index(max(v))]
-    else:
-        return k[v.index(min(v))]
-
-def max_value(board):
-    if terminal(board):
-        return utility(board)
-    v = -1000
-    for action in actions(board):
-        v = max(v, min_value(result(board, action)))
-    return v
-
-def min_value(board):
-    if terminal(board):
-        return utility(board)
-    v = 1000
-    for action in actions(board):
-        v = min(v, max_value(result(board, action)))
-    return v
-
-def mini_max(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    print(board)
+    values = dict()
     
-    moves = actions(board)
-    for move in moves:
-        print(move)
-    
-    scores = dict()
-    print("---------------")
-    for move in moves:
-        scores[move] = 0
-    print(scores)
-    print("---------------")
-    
-    for move in moves:
-        helper(board, move, scores, move)
-    print(scores)
-    
-    v = list(scores.values())
-    maxi = max(v)
-    mini = min(v)
-    k = list(scores.keys())
     if player(board) == "X":
-        return k[v.index(maxi)]
+        for action in actions(board):
+            values[action] = min_value(result(board, action))
+        return max(values, key=values.get)
     else:
-        return k[v.index(mini)]
+        for action in actions(board):
+            values[action] = max_value(result(board, action))
+        return min(values, key=values.get)
 
-def helper(board, move, scores, parent):
-    new_board = result(board, move)
-    print(new_board)
-    if not terminal(new_board):
-        emps = actions(new_board)
-        for emp in emps:
-            helper(new_board, emp, scores, parent)
-    else:
-        scores[parent] += utility(new_board)
-        print(scores)
+
+def max_value(board):
+    """
+    """
+    if terminal(board):
+        return utility(board)
+    value = -math.inf
+    for action in actions(board):
+        value = max(value, min_value(result(board, action)))
+    return value
+
+
+def min_value(board):
+    """
+    """
+    if terminal(board):
+        return utility(board)
+    value = math.inf
+    for action in actions(board):
+        value = min(value, max_value(result(board, action)))
+    return value
+
+# def mini_max(board):
+#     """
+#     """
+#     print(board)
+    
+#     moves = actions(board)
+#     for move in moves:
+#         print(move)
+    
+#     scores = dict()
+#     print("---------------")
+#     for move in moves:
+#         scores[move] = 0
+#     print(scores)
+#     print("---------------")
+    
+#     for move in moves:
+#         helper(board, move, scores, move)
+#     print(scores)
+    
+#     v = list(scores.values())
+#     maxi = max(v)
+#     mini = min(v)
+#     k = list(scores.keys())
+#     if player(board) == "X":
+#         return k[v.index(maxi)]
+#     else:
+#         return k[v.index(mini)]
+
+# def helper(board, move, scores, parent):
+#     new_board = result(board, move)
+#     print(new_board)
+#     if not terminal(new_board):
+#         emps = actions(new_board)
+#         for emp in emps:
+#             helper(new_board, emp, scores, parent)
+#     else:
+#         scores[parent] += utility(new_board)
+#         print(scores)

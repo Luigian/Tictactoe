@@ -63,7 +63,6 @@ while True:
             elif playOButton.collidepoint(mouse):
                 time.sleep(0.2)
                 user = ttt.O
-        # if user: print(f"user: {user}")
     else:
 
         # Draw game board
@@ -113,7 +112,6 @@ while True:
             if ai_turn:
                 time.sleep(0.5)
                 move = ttt.minimax(board)
-                print(move)
                 board = ttt.result(board, move)
                 ai_turn = False
             else:
