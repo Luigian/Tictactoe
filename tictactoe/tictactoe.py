@@ -174,8 +174,43 @@ def utility(board):
 #     else:
 #         return k[v.index(mini)]
 
-
 def minimax(board):
+    val = dict()
+    
+    for action in actions(board):
+        if player(board) == "X":
+            val[action] = max_value(result(board, action))
+        else:
+            val[action] = min_value(result(board, action))
+
+    print(val)
+    
+    # max(stats, key=stats.get)
+    
+    v = list(val.values())
+    k = list(val.keys())
+    if player(board) == "X":
+        return k[v.index(max(v))]
+    else:
+        return k[v.index(min(v))]
+
+def max_value(board):
+    if terminal(board):
+        return utility(board)
+    v = -1000
+    for action in actions(board):
+        v = max(v, min_value(result(board, action)))
+    return v
+
+def min_value(board):
+    if terminal(board):
+        return utility(board)
+    v = 1000
+    for action in actions(board):
+        v = min(v, max_value(result(board, action)))
+    return v
+
+def mini_max(board):
     """
     Returns the optimal action for the current player on the board.
     """
