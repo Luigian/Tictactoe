@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+import random
 
 X = "X"
 O = "O"
@@ -17,9 +18,6 @@ def initial_state():
     return [[EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
-    # return [["O", "X", EMPTY],
-    #         ["X", "O", EMPTY],
-    #         ["O", "X", EMPTY]]
 
 
 def player(board):
@@ -142,42 +140,27 @@ def utility(board):
         return 0
 
 
-# def minimax(board):
-#     """
-#     Returns the optimal action for the current player on the board.
-#     """
-#     print(board)
-    
-#     moves = actions(board)
-#     for move in moves:
-#         print(move)
-    
-#     scores = dict()
-#     print("---------------")
-#     for move in moves:
-#         scores[move] = 0
-#     print(scores)
-#     print("---------------")
-#     for move in moves:
-#         new_board = result(board, move)
-#         print(new_board)
-#         if terminal(new_board):
-#             scores[move] += utility(new_board)
-#     print(scores)
-    
-#     v = list(scores.values())
-#     maxi = max(v)
-#     mini = min(v)
-#     k = list(scores.keys())
-#     if player(board) == "X":
-#         return k[v.index(maxi)]
-#     else:
-#         return k[v.index(mini)]
+def empty(board):
+    """
+    """
+    for row in board:
+        for move in row:
+            if move:
+                return False
+    return True
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    if terminal(board):
+        return None
+
+    if empty(board):
+        i = random.randrange(3)
+        j = random.randrange(3)
+        return (i, j)
+
     values = dict()
     
     if player(board) == "X":
@@ -211,42 +194,47 @@ def min_value(board):
         value = min(value, max_value(result(board, action)))
     return value
 
-# def mini_max(board):
+# def minimax(board):
 #     """
+#     Returns the optimal action for the current player on the board.
 #     """
-#     print(board)
-    
-#     moves = actions(board)
-#     for move in moves:
-#         print(move)
-    
-#     scores = dict()
-#     print("---------------")
-#     for move in moves:
-#         scores[move] = 0
-#     print(scores)
-#     print("---------------")
-    
-#     for move in moves:
-#         helper(board, move, scores, move)
-#     print(scores)
-    
-#     v = list(scores.values())
-#     maxi = max(v)
-#     mini = min(v)
-#     k = list(scores.keys())
-#     if player(board) == "X":
-#         return k[v.index(maxi)]
-#     else:
-#         return k[v.index(mini)]
+#     if terminal(board):
+#         return None
 
-# def helper(board, move, scores, parent):
-#     new_board = result(board, move)
-#     print(new_board)
-#     if not terminal(new_board):
-#         emps = actions(new_board)
-#         for emp in emps:
-#             helper(new_board, emp, scores, parent)
+#     if empty(board):
+#         i = random.randrange(3)
+#         j = random.randrange(3)
+#         return (i, j)
+
+#     values = dict()
+    
+#     if player(board) == "X":
+#         for action in actions(board):
+#             values[action] = min_value(result(board, action))
+#         return max(values, key=values.get)
 #     else:
-#         scores[parent] += utility(new_board)
-#         print(scores)
+#         for action in actions(board):
+#             values[action] = max_value(result(board, action))
+#         return min(values, key=values.get)
+
+
+# def max_value(board):
+#     """
+#     """
+#     if terminal(board):
+#         return utility(board)
+#     value = -math.inf
+#     for action in actions(board):
+#         value = max(value, min_value(result(board, action)))
+#     return value
+
+
+# def min_value(board):
+#     """
+#     """
+#     if terminal(board):
+#         return utility(board)
+#     value = math.inf
+#     for action in actions(board):
+#         value = min(value, max_value(result(board, action)))
+#     return value
