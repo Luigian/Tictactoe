@@ -162,37 +162,55 @@ def minimax(board):
         return None
 
     values = dict()
+    i = 0
     
     if player(board) == "X":
+        value = math.inf
         for action in actions(board):
-            values[action] = min_value(result(board, action))
+            values[action] = min_value(result(board, action), value, i)
+            i += 1
         return max(values, key=values.get)
     else:
+        value = -math.inf
         for action in actions(board):
-            values[action] = max_value(result(board, action))
+            # values[action] = max_value(result(board, action))
+            value = max_value(result(board, action), value)
         return min(values, key=values.get)
 
 
-def max_value(board):
+
+def max_value(board, value):
     """
     """
     if terminal(board):
         return utility(board)
-    value = -math.inf
+    # value = -math.inf
     for action in actions(board):
         value = max(value, min_value(result(board, action)))
     return value
 
 
-def min_value(board):
+def min_value(board, value, i):
     """
     """
     if terminal(board):
         return utility(board)
-    value = math.inf
-    for action in actions(board):
-        value = min(value, max_value(result(board, action)))
-    return value
+    elif not i: 
+    # value = math.inf
+        for action in actions(board):
+            value = min(value, max_value(result(board, action)))
+        return value
+    else:
+        tmp = math.inf
+        for action in actions(board):
+                v = max_value(result(board, action))
+                if v <= value:
+                    return value
+                elif v < tmp:
+                    tmp = v
+        return tmp
+
+
 
 # def minimax(board):
 #     """
