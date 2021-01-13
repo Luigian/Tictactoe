@@ -153,13 +153,13 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    if terminal(board):
-        return None
-
     if empty(board):
         i = random.randrange(3)
         j = random.randrange(3)
         return (i, j)
+
+    if terminal(board):
+        return None
 
     values = dict()
     
@@ -198,13 +198,13 @@ def min_value(board):
 #     """
 #     Returns the optimal action for the current player on the board.
 #     """
-#     if terminal(board):
-#         return None
-
 #     if empty(board):
 #         i = random.randrange(3)
 #         j = random.randrange(3)
 #         return (i, j)
+
+#     if terminal(board):
+#         return None
 
 #     values = dict()
     
