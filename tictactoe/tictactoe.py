@@ -133,7 +133,7 @@ def minimax(board):
 
 def max_value(board):
     """
-    Returns the maximum value of a state,
+    Returns the maximum value of a state.
     """
     if terminal(board):
         return utility(board)
@@ -145,7 +145,7 @@ def max_value(board):
 
 def min_value(board):
     """
-    Returns the minimum value of a state,
+    Returns the minimum value of a state.
     """
     if terminal(board):
         return utility(board)
@@ -157,6 +157,7 @@ def min_value(board):
 
 def moves_counter(board):
     """
+    Returns the count of X, O and empty cells on a given board.
     """
     count = {"x": 0, "o": 0, "empty": 0}
 
@@ -173,6 +174,7 @@ def moves_counter(board):
 
 def get_triplets(board):
     """
+    Returns the eight to-win triplets of a given board.
     """
     triplets = list()
     diag_down = list()
@@ -183,6 +185,7 @@ def get_triplets(board):
         triplets.append((board[0][i], board[1][i], board[2][i]))
         diag_down.append(board[i][i])
         diag_up.append(board[i][(i - 2) * -1])
+
     triplets.append(diag_down)
     triplets.append(diag_up)
     
